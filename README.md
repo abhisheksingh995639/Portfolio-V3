@@ -1,86 +1,76 @@
-# 🚀 Dynamic Personal Portfolio
+# 🌌 Curiosity-Driven Portfolio: AI & Design Console
 
-A modern, responsive, and fully dynamic personal portfolio website featuring a custom-built Admin Dashboard. This project enables seamless content management (CMS) directly from the browser without needing a separate backend server.
+A premium, high-performance developer portfolio built for the intersection of **Artificial Intelligence** and **Creative Web Design**. This project features a fully integrated **Admin Control Center** (CMS) that enables dynamic content management directly from the browser, powered by Firebase.
 
-## ✨ Features
+![Portfolio Preview](https://lh3.googleusercontent.com/aida/AOfcidWiG3yNqed3jb0M5uLMdXB4JyLeP4SNejMtoZFxGyT5FRd3NuYm4dqLbsoNNPX9HdHOV4VP6hwSVBOKgNJ_jf_xj6iM-esX6DQY-z4mIruHMWqKbh_aYaZYcT-Y5Su2FsNrh9w_iNv9mV_BpdT77J0mff93VHvp4YEwu8T7h5jvykqUkN2pS3jAL2fhp2ox9HM6p3eSZq8LRrtlLagVXMLOagR9tIKQj819jihETnKFDxHuphYFaBysFw)
 
-- **Striking UI/UX & Responsive Design**: Built with Tailwind CSS and glassmorphism design principles to ensure a beautiful experience on desktops, tablets, and mobile devices.
-- **Dynamic Content Injection**: The frontend automatically fetches and renders portfolio data (Projects, Experience, Skills, and Analytics) directly from the database.
-- **Secure Admin Panel (CMS)**: 
-  - Complete control over your portfolio content.
-  - Protected behind an authentication wall.
-  - Perform CRUD (Create, Read, Update, Delete) operations on your Projects, Experience, and Skills dynamically.
-- **Analytics Dashboard**: Tracks page views and resume downloads using data visualized via Chart.js.
+## ✨ Core Experience
+- **Fluid Motion & Design**: Leverages **Framer Motion**, **GSAP**, and **Lenis** for ultra-smooth scrolling and premium micro-interactions.
+- **Interactive Backgrounds**: A custom-built p5.js/Canvas particle engine that responds to user presence.
+- **Cyber-Tech Aesthetic**: A dark-mode first design utilizing glassmorphism, HUD overlays, and tonal layering.
+- **Dynamic Content Architecture**: All content (Projects, Journey, Skills, Languages, UI Strings) is fetched in real-time from Firestore.
+- **Pro Admin Console**: A secure, dashboard-style CMS with:
+  - **Skill Density Analytics**: Radar charts visualizing your stack.
+  - **Telemetry Dashboard**: Monitoring page views and resume downloads.
+  - **Full CMS capabilities**: CRUD operations for projects, experience, and site-wide text strings.
 
-## 🛠️ Tech Stack
-
-- **Frontend Core**: HTML5, Vanilla JavaScript (ES6+), CSS3
-- **Styling framework**: Tailwind CSS
-- **Backend / BaaS**: [Firebase](https://firebase.google.com/)
-  - *Firestore*: NoSQL database for storing portfolio content and analytics.
-  - *Firebase Authentication*: Securing the admin portal.
-  - *Storage* (Optional): For hosting project images and resumes.
-- **Data Visualization**: Chart.js (for rendering skill levels and project categories)
+## 🛠️ Technical Architecture
+- **Framework**: [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database/Auth**: [Firebase](https://firebase.google.com/) (Firestore & Auth)
+- **Animations**: Framer Motion, GSAP, Lenis
+- **Charts**: Chart.js / React-Chartjs-2
+- **Hosting**: Optimized for [Netlify](https://www.netlify.com/)
 
 ## 📂 Project Structure
-
 ```
 Portfolio/
-├── index.html               # Main portfolio landing page
-├── admin.html               # Secure Content Management System (CMS) board
-├── input.css / output.css   # Tailwind CSS source and generated files
-├── tailwind.config.js       # Tailwind configuration file
-└── js/
-    ├── main.js              # Frontend logic, Firebase data fetching, and UI rendering
-    ├── admin.js             # Admin logic, Firebase Auth, and Firestore CRUD operations
-    └── firebase-config.js   # Initialization of Firebase SDK & endpoints
+├── src/
+│   ├── admin/               # Management Console (CMS)
+│   │   ├── components/      # Admin-only UI elements
+│   │   ├── views/           # Admin dashboard views
+│   │   └── AdminApp.tsx     # Admin entry point
+│   ├── components/          # Frontend Portfolio components
+│   ├── lib/                 # Core utilities & Firebase config
+│   ├── App.tsx              # Main Portfolio entry point
+│   └── main.tsx             # React mount point
+├── public/                  # Static assets & SEO (robots.txt, _redirects)
+├── index.html               # Frontend Entry
+├── admin.html               # Admin Entry
+├── netlify.toml             # Deployment Configuration
+└── vite.config.ts           # Build Configuration
 ```
 
-## 🚀 Getting Started
+## 🚀 Development & Deployment
 
-### Prerequisites
-
-To run this project, you need a local development server (Firebase Authentication does not work over the `file://` protocol). 
-
-1. Install [Node.js](https://nodejs.org/) (which includes `npm`).
-2. Have a quick local server method ready, like the **Live Server** extension in VS Code.
-
-### Installation
-
-1. Clone this repository to your local machine:
+### Local Setup
+1. **Clone & Install**:
    ```bash
-   git clone https://github.com/your-username/your-portfolio-repo.git
+   git clone [repository-url]
    cd Portfolio
-   ```
-
-2. Generate the Tailwind CSS build (Optional if `output.css` is already updated):
-   ```bash
    npm install
-   npx tailwindcss -i ./input.css -o ./output.css --watch
+   ```
+2. **Start Dev Server**:
+   ```bash
+   npm run dev
+   ```
+3. **Build for Production**:
+   ```bash
+   npm run build
    ```
 
-3. Open the project using a local server:
-   - If using VS Code, right-click `index.html` and select **"Open with Live Server"**.
+### Firebase Configuration
+1. Create a project in the [Firebase Console](https://console.firebase.google.com/).
+2. Enable **Firestore Database** and **Email/Password Authentication**.
+3. Update `src/lib/firebase.ts` with your config keys.
+4. Set up your collection in Firestore under `portfolio/data`.
 
-## 🔐 Setup Firebase (Required for your own use)
+### Netlify Deployment
+The project includes a `netlify.toml` for zero-config deployment. Simply connect your GitHub repository to Netlify and it will automatically handle the build commands and SPA routing.
 
-Since this project uses Firebase, you must connect it to your own Firebase project to make it work.
-
-1. Go to the [Firebase Console](https://console.firebase.google.com/) and Create a New Project.
-2. Register a new Web App to get your Firebase configuration keys.
-3. Enable **Firestore Database** (start in test mode or configure custom rules).
-4. Enable **Authentication** (Choose Email/Password sign-in method).
-   - *Go to the "Users" tab and manually add a new user with your secure email and password. This will be your admin login.*
-5. Open `js/firebase-config.js` and replace the existing `firebaseConfig` object with your newly generated config.
-
-## 📸 Usage
-
-- **Main Page (`index.html`)**: Simply acts as the viewer. Any visitor will dynamically see what you publish on your database.
-- **Admin Page (`admin.html`)**: Log in using your registered Firebase Authentication credentials to begin adding tags, experiences, projects, and managing what's visible on the main page.
-
-## 💡 Customization
-
-To personalize this portfolio, modify the UI components inside `index.html`. You can configure your global branding colors and typography via `tailwind.config.js`.
+## 🔐 Security Note
+The admin console (`admin.html`) is protected by Firebase Authentication. Ensure you manually create your admin user in the Firebase Console under the Authentication tab. SEO indexing for the admin console is disabled via `public/robots.txt`.
 
 ---
-*Crafted with dedication.*
+*Developed with a focus on systems architecture and visual excellence.*
