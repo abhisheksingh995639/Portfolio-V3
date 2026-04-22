@@ -1,0 +1,8 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin.html
+
+# Sitemap link
+# Sitemap: https://abhisheksingh.dev/sitemap.xml
