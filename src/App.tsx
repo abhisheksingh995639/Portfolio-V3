@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./lib/firebase";
 import { LoadingScreen } from "./components/LoadingScreen";
@@ -55,9 +55,13 @@ function App() {
     fetchData();
   }, []);
 
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
     <>
-      {isLoading && <LoadingScreen ui={data?.ui?.loading} onComplete={() => setIsLoading(false)} />}
+      {isLoading && <LoadingScreen ui={data?.ui?.loading} onComplete={handleLoadingComplete} />}
       
       {!isLoading && (
         <SmoothScroll>
