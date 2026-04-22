@@ -1,10 +1,10 @@
-# 🌌 Curiosity-Driven Portfolio: AI & Design Console
+# Curiosity-Driven Portfolio: AI & Design Console
 
 A premium, high-performance developer portfolio built for the intersection of **Artificial Intelligence** and **Creative Web Design**. This project features a fully integrated **Admin Control Center** (CMS) that enables dynamic content management directly from the browser, powered by Firebase.
 
 ![Portfolio Preview](./public/preview.png)
 
-## ✨ Core Experience
+## Core Experience
 - **Fluid Motion & Design**: Leverages **Framer Motion**, **GSAP**, and **Lenis** for ultra-smooth scrolling and premium micro-interactions.
 - **Interactive Backgrounds**: A custom-built p5.js/Canvas particle engine that responds to user presence.
 - **Cyber-Tech Aesthetic**: A dark-mode first design utilizing glassmorphism, HUD overlays, and tonal layering.
@@ -14,7 +14,7 @@ A premium, high-performance developer portfolio built for the intersection of **
   - **Telemetry Dashboard**: Monitoring page views and resume downloads.
   - **Full CMS capabilities**: CRUD operations for projects, experience, and site-wide text strings.
 
-## 🛠️ Technical Architecture
+## Technical Architecture
 - **Framework**: [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
@@ -23,7 +23,7 @@ A premium, high-performance developer portfolio built for the intersection of **
 - **Charts**: Chart.js / React-Chartjs-2
 - **Hosting**: Optimized for [Netlify](https://www.netlify.com/)
 
-## 📂 Project Structure
+## Project Structure
 ```
 Portfolio/
 ├── src/
@@ -42,7 +42,7 @@ Portfolio/
 └── vite.config.ts           # Build Configuration
 ```
 
-## 🚀 Development & Deployment
+## Development & Deployment
 
 ### Local Setup
 1. **Clone & Install**:
@@ -69,7 +69,7 @@ Portfolio/
 ### Netlify Deployment
 The project includes a `netlify.toml` for zero-config deployment. Simply connect your GitHub repository to Netlify and it will automatically handle the build commands and SPA routing.
 
-## 🔐 Security Note
+## Security Note
 The admin console (`admin.html`) is protected by Firebase Authentication. Ensure you manually create your admin user in the Firebase Console under the Authentication tab. SEO indexing for the admin console is disabled via `public/robots.txt`.
 
 ---
