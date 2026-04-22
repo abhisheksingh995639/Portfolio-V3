@@ -14,7 +14,7 @@ export function Hero({ data }: { data: PortfolioData | null }) {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const lenis = useLenis();
-  const roles = data?.ui?.hero?.roles || ["Developer", "AI Engineer", "Creator", "Scholar"];
+  const roles = data?.ui?.hero?.roles || ["Developer", "AI Enthusiast", "Creator", "Student"];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -171,7 +171,7 @@ export function Hero({ data }: { data: PortfolioData | null }) {
         </div>
 
         <p className="blur-in opacity-0 translate-y-5 blur-[10px] text-sm md:text-base text-muted max-w-md mx-auto mb-12 text-balance">
-          {data?.general?.tagline || "Crafting digital experiences at the intersection of Artificial Intelligence and Modern Web Technologies."}
+          {data?.general?.tagline || "Aspiring Engineer exploring the intersection of Artificial Intelligence and Modern Web Technologies."}
         </p>
 
         <div className="blur-in opacity-0 translate-y-5 blur-[10px] flex flex-wrap justify-center gap-4">

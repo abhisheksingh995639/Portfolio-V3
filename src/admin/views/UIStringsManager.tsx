@@ -19,7 +19,7 @@ import { cn } from "../../lib/utils";
 
 const DEFAULTS = {
   hero: {
-    roles: ["Developer", "AI Engineer", "Creator", "Scholar"],
+    roles: ["Developer", "AI Enthusiast", "Creator", "Student"],
     collectionYear: "COLLECTION '26",
     scrollText: "SCROLL",
     seeWorksBtn: "See Works",

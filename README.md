@@ -2,7 +2,7 @@
 
 A premium, high-performance developer portfolio built for the intersection of **Artificial Intelligence** and **Creative Web Design**. This project features a fully integrated **Admin Control Center** (CMS) that enables dynamic content management directly from the browser, powered by Firebase.
 
-![Portfolio Preview](https://lh3.googleusercontent.com/aida/AOfcidWiG3yNqed3jb0M5uLMdXB4JyLeP4SNejMtoZFxGyT5FRd3NuYm4dqLbsoNNPX9HdHOV4VP6hwSVBOKgNJ_jf_xj6iM-esX6DQY-z4mIruHMWqKbh_aYaZYcT-Y5Su2FsNrh9w_iNv9mV_BpdT77J0mff93VHvp4YEwu8T7h5jvykqUkN2pS3jAL2fhp2ox9HM6p3eSZq8LRrtlLagVXMLOagR9tIKQj819jihETnKFDxHuphYFaBysFw)
+![Portfolio Preview](./public/preview.png)
 
 ## ✨ Core Experience
 - **Fluid Motion & Design**: Leverages **Framer Motion**, **GSAP**, and **Lenis** for ultra-smooth scrolling and premium micro-interactions.
