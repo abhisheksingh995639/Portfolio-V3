@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { db } from "../../lib/firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Reorder } from "framer-motion";
 import { cn } from "../../lib/utils";
 import { 
   Plus, 
@@ -15,7 +15,8 @@ import {
   Search,
   Globe,
   Check,
-  Loader2
+  Loader2,
+  GripVertical
 } from "lucide-react";
 
 export function AssetsManager() {
@@ -26,6 +27,7 @@ export function AssetsManager() {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState("");
+  const [hasOrderChanged, setHasOrderChanged] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
@@ -140,6 +142,26 @@ export function AssetsManager() {
     }
   };
 
+  const handleReorder = (newOrder: any[]) => {
+    setProjects(newOrder);
+    setHasOrderChanged(true);
+  };
+
+  const saveNewOrder = async () => {
+    setSaveStatus('saving');
+    try {
+      await updateDoc(doc(db, "portfolio", "data"), { projects });
+      setSaveStatus('saved');
+      setHasOrderChanged(false);
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (err: any) {
+      console.error("Order save failed:", err);
+      setSaveStatus('error');
+      setErrorMessage(err.message || "Failed to save order.");
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    }
+  };
+
   const filteredProjects = projects.filter(p => 
     p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.tags?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -172,77 +194,83 @@ export function AssetsManager() {
             >
                <Plus className="w-4 h-4" /> New Project
             </button>
+            {hasOrderChanged && (
+              <button 
+                onClick={saveNewOrder}
+                disabled={saveStatus === 'saving'}
+                className="bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-emerald-600 transition-all active:scale-95 shadow-lg shadow-emerald-500/20"
+              >
+                 {saveStatus === 'saving' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                 Save Order
+              </button>
+            )}
          </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Project List (Reorderable) */}
+      <Reorder.Group 
+        axis="y" 
+        values={projects} 
+        onReorder={handleReorder}
+        className="space-y-4"
+      >
          {filteredProjects.map((project, i) => (
-           <motion.div 
-             key={i}
-             layoutId={`project-${i}`}
-             className="bg-surface/30 backdrop-blur-xl border border-stroke rounded-3xl overflow-hidden group hover:border-[#89AACC]/40 transition-all"
+           <Reorder.Item 
+             key={project.title + i} // Using title + index for unique key
+             value={project}
+             dragListener={!searchQuery} // Disable dragging if filtering
+             className={cn(
+               "bg-surface/30 backdrop-blur-xl border border-stroke rounded-2xl overflow-hidden group hover:border-[#89AACC]/40 transition-all flex items-center p-4 gap-6",
+               searchQuery ? "cursor-default" : "cursor-grab active:cursor-grabbing"
+             )}
            >
-             <div className="h-48 relative overflow-hidden bg-bg">
-                <img 
-                  src={project.imageUrl} 
-                  alt={project.title} 
-                  className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" 
-                  onError={(e: any) => e.target.src = "https://picsum.photos/seed/bg/800/400"}
-                />
-                <div className="absolute top-4 left-4 flex gap-2">
-                   <div className="bg-bg/80 backdrop-blur-md border border-stroke px-3 py-1 rounded-full flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#89AACC]" />
-                      <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#89AACC]">{project.category}</span>
-                   </div>
+              {/* Drag Handle */}
+              {!searchQuery && (
+                <div className="text-muted/40 group-hover:text-[#89AACC] transition-colors">
+                  <GripVertical className="w-5 h-5" />
                 </div>
-             </div>
-             <div className="p-6">
-                <h3 className="text-lg font-display italic text-text-primary mb-2">{project.title}</h3>
-                <p className="text-xs text-muted line-clamp-2 mb-6 font-mono leading-relaxed">{project.desc}</p>
-                
-                <div className="flex items-center justify-between pt-6 border-t border-stroke">
-                   <div className="flex gap-2">
-                      <button 
-                        onClick={() => openModal(i)}
-                        className="w-9 h-9 rounded-xl bg-bg/50 border border-stroke flex items-center justify-center text-muted hover:text-[#89AACC] hover:border-[#89AACC]/40 transition-all"
-                      >
-                         <Edit3 className="w-4 h-4" />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(i)}
-                        className="w-9 h-9 rounded-xl bg-bg/50 border border-stroke flex items-center justify-center text-muted hover:text-red-400 hover:border-red-400/40 transition-all"
-                      >
-                         <Trash2 className="w-4 h-4" />
-                      </button>
-                   </div>
-                   <div className="flex gap-3 text-muted">
-                      {project.github && (
-                        <a 
-                          href={project.github} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="hover:text-text-primary transition-colors p-1"
-                        >
-                          <Github className="w-4 h-4" />
-                        </a>
-                      )}
-                      {project.link && (
-                        <a 
-                          href={project.link} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="hover:text-[#89AACC] transition-colors p-1"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </a>
-                      )}
-                   </div>
-                </div>
-             </div>
-           </motion.div>
+              )}
+
+              {/* Project Image Thumbnail */}
+              <div className="w-24 h-24 rounded-xl overflow-hidden bg-bg shrink-0 border border-stroke">
+                 <img 
+                   src={project.imageUrl} 
+                   alt={project.title} 
+                   className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" 
+                   onError={(e: any) => e.target.src = "https://picsum.photos/seed/bg/200/200"}
+                 />
+              </div>
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                 <div className="flex items-center gap-3 mb-1">
+                    <h3 className="text-base font-display italic text-text-primary truncate">{project.title}</h3>
+                    <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-[#89AACC] bg-[#89AACC]/10 px-2 py-0.5 rounded-full">{project.category}</span>
+                 </div>
+                 <p className="text-[11px] text-muted line-clamp-1 font-mono">{project.desc}</p>
+                 <div className="flex gap-4 mt-2">
+                    <span className="text-[9px] font-mono text-muted/60 uppercase">Tags: {project.tags}</span>
+                 </div>
+              </div>
+              
+              {/* Actions */}
+              <div className="flex items-center gap-2">
+                 <button 
+                   onClick={() => openModal(i)}
+                   className="w-9 h-9 rounded-xl bg-bg/50 border border-stroke flex items-center justify-center text-muted hover:text-[#89AACC] hover:border-[#89AACC]/40 transition-all"
+                 >
+                    <Edit3 className="w-4 h-4" />
+                 </button>
+                 <button 
+                   onClick={() => handleDelete(i)}
+                   className="w-9 h-9 rounded-xl bg-bg/50 border border-stroke flex items-center justify-center text-muted hover:text-red-400 hover:border-red-400/40 transition-all"
+                 >
+                    <Trash2 className="w-4 h-4" />
+                 </button>
+              </div>
+           </Reorder.Item>
          ))}
-      </div>
+      </Reorder.Group>
 
       {/* Modal */}
       <AnimatePresence>
