@@ -7,7 +7,6 @@ import {
   Plus, 
   Trash2, 
   Edit3, 
-  ExternalLink, 
   Github, 
   Image as ImageIcon,
   X,
